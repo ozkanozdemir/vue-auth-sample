@@ -20,5 +20,7 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### UI Materials
+Login Page Design [Codepen - Florin Pop](https://codepen.io/FlorinPop17/pen/vPKWjd).
+
+Nav Menu Design [Codepen - whisnuys](https://codepen.io/WhisnuYs/pen/XWdpdGP).
