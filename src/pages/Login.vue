@@ -3,6 +3,7 @@
     <div class="container">
       <div class="form-container sign-in-container">
         <Form @submit="onLogin">
+          <Loading v-if="loading" class="loading" />
           <h1>Sign in</h1>
           <Field name="email"
                  type="email"
@@ -14,7 +15,9 @@
                  placeholder="Password"
                  :rules="isRequired" />
           <ErrorMessage name="password" />
-          <button>Sign In</button>
+          <button type="submit">
+            Sign In
+          </button>
         </Form>
       </div>
       <div class="overlay-container">
@@ -30,21 +33,45 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import { Field, Form, ErrorMessage } from 'vee-validate';
+import Loading from "@/components/ui/Loading";
 
 export default {
   name: "Login",
   components: {
+    ErrorMessage,
     Field,
     Form,
-    ErrorMessage
+    Loading
   },
   data() {
-    return {}
+    return {
+      loading: false
+    }
   },
   methods: {
-    onLogin(values) {
-      console.log(values);
+    ...mapActions([
+        'setUser',
+        'login',
+    ]),
+    isRequired(value) {
+      return value ? true : 'This field is required';
+    },
+    async onLogin(values) {
+      // Show loading
+      this.loading = true;
+
+      // Run login actions
+      const response = await this.login(values)
+
+      // Hide loading
+      this.loading = false;
+
+      if (response) {
+        // redirect to home page
+        this.$router.push({name: 'home'})
+      }
     },
     validateEmail(value) {
       // if the field is empty
@@ -59,9 +86,6 @@ export default {
       // All is good
       return true;
     },
-    isRequired(value) {
-      return value ? true : 'This field is required';
-    },
   },
 }
 </script>
@@ -74,6 +98,17 @@ export default {
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   height: 100%;
+}
+.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {

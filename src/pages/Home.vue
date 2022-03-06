@@ -3,12 +3,20 @@
     <h2>
       Welcome
     </h2>
+    <div>
+      {{ token }}
+    </div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
-  name: "Home"
+  name: "Home",
+  computed: {
+    ...mapGetters(['token'])
+  }
 }
 </script>
 

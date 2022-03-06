@@ -1,25 +1,32 @@
 <template>
   <header class="header">
     <nav class="navMenu">
-      <router-link :to="{name: 'home'}">
+      <router-link v-if="isAuthenticated" :to="{name: 'home'}">
         Home
       </router-link>
-      <router-link :to="{name: 'login'}">
+      <router-link v-if="!isAuthenticated" :to="{name: 'login'}">
         Login
       </router-link>
-      <a href="#" @click="logout">Logout</a>
+      <a v-if="isAuthenticated" href="#" @click="logout">Logout</a>
       <div class="dot"></div>
     </nav>
   </header>
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
   name: "Header",
+  computed: {
+    ...mapGetters([
+        'isAuthenticated'
+    ])
+  },
   methods: {
-    logout() {
-      alert('logout')
-    }
+    ...mapActions([
+       'logout'
+    ])
   }
 }
 </script>
