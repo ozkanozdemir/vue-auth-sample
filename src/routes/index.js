@@ -2,9 +2,15 @@ import {createRouter, createWebHistory} from "vue-router";
 
 import store from '@/store';
 
+const pathPrefix = process.env.NODE_ENV === 'production' ? 'vue-auth-sample/' : '';
+
 const routes = [
 	{
 		path: '/',
+		redirect: { name: 'home' }
+	},
+	{
+		path: `/${pathPrefix}`,
 		name: 'home',
 		component: () => import('@/pages/Home'),
 		meta: {
@@ -12,7 +18,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/login',
+		path: `/${pathPrefix}login`,
 		name: 'login',
 		component: () => import('@/pages/Login'),
 		meta: {
@@ -20,7 +26,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/:pathMatch(.*)*',
+		path: `/${pathPrefix}:pathMatch(.*)*`,
 		name: 'NotFound',
 		component: () => import('@/pages/404'),
 		meta: {
