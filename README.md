@@ -1,6 +1,6 @@
 # vue-auth-sample
 
-[See Demo](https://ozkanozdemir.github.io/vue-auth-sample/login)
+[See Demo](https://ozkanozdemir.github.io/vue-auth-sample)
 
 ![Screen Shot 1](https://ozkanozdemir.github.io/vue-auth-sample/ss1.png)
 ![Screen Shot 2](https://ozkanozdemir.github.io/vue-auth-sample/ss2.png)
