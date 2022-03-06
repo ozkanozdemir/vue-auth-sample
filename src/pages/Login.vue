@@ -2,20 +2,23 @@
   <div class="login-page">
     <div class="container">
       <div class="form-container sign-in-container">
-        <form action="#">
+        <Form @submit="onLogin">
           <h1>Sign in</h1>
-          <input type="email" placeholder="Email"/>
-          <input type="password" placeholder="Password"/>
+          <Field name="email"
+                 type="email"
+                 placeholder="Email"
+                 :rules="validateEmail" />
+          <ErrorMessage name="email" />
+          <Field name="password"
+                 type="password"
+                 placeholder="Password"
+                 :rules="isRequired" />
+          <ErrorMessage name="password" />
           <button>Sign In</button>
-        </form>
+        </Form>
       </div>
       <div class="overlay-container">
         <div class="overlay">
-          <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with your personal info</p>
-            <button class="ghost" id="signIn">Sign In</button>
-          </div>
           <div class="overlay-panel overlay-right">
             <h1>Hello, Friend!</h1>
             <p>Enter your personal details and start journey with us</p>
@@ -27,8 +30,39 @@
 </template>
 
 <script>
+import { Field, Form, ErrorMessage } from 'vee-validate';
+
 export default {
-  name: "Login"
+  name: "Login",
+  components: {
+    Field,
+    Form,
+    ErrorMessage
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    onLogin(values) {
+      console.log(values);
+    },
+    validateEmail(value) {
+      // if the field is empty
+      if (!value) {
+        return 'This field is required';
+      }
+      // if the field is not a valid email
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(value)) {
+        return 'This field must be a valid email';
+      }
+      // All is good
+      return true;
+    },
+    isRequired(value) {
+      return value ? true : 'This field is required';
+    },
+  },
 }
 </script>
 
@@ -81,6 +115,7 @@ button {
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
+  margin-top: 8px;
 }
 
 button:active {
@@ -142,20 +177,6 @@ input {
 
 .container.right-panel-active .sign-in-container {
   transform: translateX(100%);
-}
-
-.sign-up-container {
-  left: 0;
-  width: 50%;
-  opacity: 0;
-  z-index: 1;
-}
-
-.container.right-panel-active .sign-up-container {
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 5;
-  animation: show 0.6s;
 }
 
 @keyframes show {
@@ -220,14 +241,6 @@ input {
   transition: transform 0.6s ease-in-out;
 }
 
-.overlay-left {
-  transform: translateX(-20%);
-}
-
-.container.right-panel-active .overlay-left {
-  transform: translateX(0);
-}
-
 .overlay-right {
   right: 0;
   transform: translateX(0);
@@ -237,43 +250,7 @@ input {
   transform: translateX(20%);
 }
 
-.social-container {
-  margin: 20px 0;
-}
-
-.social-container a {
-  border: 1px solid #DDDDDD;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 5px;
-  height: 40px;
-  width: 40px;
-}
-
-footer {
-  background-color: #222;
-  color: #fff;
-  font-size: 14px;
-  bottom: 0;
-  position: fixed;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 999;
-}
-
-footer p {
-  margin: 10px 0;
-}
-
-footer i {
+span[role=alert] {
   color: red;
-}
-
-footer a {
-  color: #3c97bf;
-  text-decoration: none;
 }
 </style>
